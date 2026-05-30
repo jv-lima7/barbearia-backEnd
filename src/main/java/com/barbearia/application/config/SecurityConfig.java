@@ -17,8 +17,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${ADMIN_PASSWORD}")
-    private String adminPassword;
+    @Value("${ADMIN_USERNAME_1}")
+    private String adminUsername1;
+
+    @Value("${ADMIN_PASSWORD_1}")
+    private String adminPassword1;
+
+    @Value("${ADMIN_USERNAME_2}")
+    private String adminUsername2;
+
+    @Value("${ADMIN_PASSWORD_2}")
+    private String adminPassword2;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,13 +48,19 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        var user = User.builder()
-                .username("admin")
-                .password(encoder.encode(adminPassword))
+        var admin1 = User.builder()
+                .username(adminUsername1)
+                .password(encoder.encode(adminPassword1))
                 .roles("ADMIN")
                 .build();
 
-        return new InMemoryUserDetailsManager(user);
+        var admin2 = User.builder()
+                .username(adminUsername2)
+                .password(encoder.encode(adminPassword2))
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin1, admin2);
     }
 
     @Bean
