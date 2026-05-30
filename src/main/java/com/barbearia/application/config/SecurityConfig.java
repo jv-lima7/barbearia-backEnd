@@ -20,10 +20,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/barbeiros").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servicos").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/agendamentos").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> httpBasic.realmName("Barbearia Admin"));
