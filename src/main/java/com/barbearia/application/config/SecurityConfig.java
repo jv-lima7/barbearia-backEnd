@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/barbeiros").permitAll()
                         .requestMatchers(HttpMethod.GET, "/servicos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/agendamentos").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/agendamentos/horarios-ocupados").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> httpBasic.realmName("Barbearia Admin"));

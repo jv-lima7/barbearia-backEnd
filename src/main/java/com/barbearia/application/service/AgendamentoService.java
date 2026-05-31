@@ -62,4 +62,17 @@ public class AgendamentoService {
                 .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado."));
         agendamentoRepository.delete(agendamento);
     }
+
+    public List<String> listarHorariosOcupados(Long barbeiroId, LocalDate data) {
+        Barbeiro barbeiro = barbeiroRepository.findById(barbeiroId)
+                .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado."));
+
+        LocalDateTime inicio = data.atTime(LocalTime.MIN);
+        LocalDateTime fim = data.atTime(LocalTime.MAX);
+
+        return agendamentoRepository.findByBarbeiroAndDataHoraBetween(barbeiro, inicio, fim)
+                .stream()
+                .map(a -> a.getDataHora().toLocalTime().toString().substring(0, 5))
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

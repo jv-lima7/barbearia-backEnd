@@ -53,4 +53,12 @@ public class AgendamentoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/horarios-ocupados")
+    public ResponseEntity<List<String>> horariosOcupados(
+            @RequestParam Long barbeiroId,
+            @RequestParam LocalDate data) {
+        List<String> horarios = agendamentoService.listarHorariosOcupados(barbeiroId, data);
+        return ResponseEntity.ok(horarios);
+    }
 }
