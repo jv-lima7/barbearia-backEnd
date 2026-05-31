@@ -75,4 +75,14 @@ public class AgendamentoService {
                 .map(a -> a.getDataHora().toLocalTime().toString().substring(0, 5))
                 .collect(java.util.stream.Collectors.toList());
     }
+
+    public List<Agendamento> listarPorBarbeiroEMes(Long barbeiroId, int ano, int mes) {
+        Barbeiro barbeiro = barbeiroRepository.findById(barbeiroId)
+                .orElseThrow(() -> new IllegalArgumentException("Barbeiro não encontrado."));
+
+        LocalDateTime inicio = LocalDateTime.of(ano, mes, 1, 0, 0);
+        LocalDateTime fim = inicio.plusMonths(1).minusSeconds(1);
+
+        return agendamentoRepository.findByBarbeiroAndDataHoraBetween(barbeiro, inicio, fim);
+    }
 }

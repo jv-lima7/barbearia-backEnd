@@ -61,4 +61,12 @@ public class AgendamentoController {
         List<String> horarios = agendamentoService.listarHorariosOcupados(barbeiroId, data);
         return ResponseEntity.ok(horarios);
     }
+
+    @GetMapping("/mes")
+    public ResponseEntity<List<Agendamento>> listarPorMes(
+            @RequestParam Long barbeiroId,
+            @RequestParam int ano,
+            @RequestParam int mes) {
+        return ResponseEntity.ok(agendamentoService.listarPorBarbeiroEMes(barbeiroId, ano, mes));
+    }
 }
